@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>UNMS Config</title>
+    </head>
+    <body>
+        <h1>Configure UNMS</h1>
+        <form id="config-form">
+            <label for="unms-base">UNMS Base URL:</label><br>
+            <input type="text" id="unms-base" name="unms-base"><br>
+            <span id="unms-base-label"></span><br><br>
+            <label for="token-api">Token API:</label><br>
+            <input type="password" id="token-api" name="token-api" placeholder="********"><br>
+            <span id="token-api-label"></span><br><br>
+            <button type="button" id="save-button">Save</button>
+        </form>
+        <script src="popup.js"></script>
+    </body>
+</html>

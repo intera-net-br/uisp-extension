@@ -50,11 +50,11 @@ Português (Brasil)
 
 #### Ícone da Store
 
-![favicon do UISP ](./icons/icon128.png)
+![favicon do UISP ](./doc/icon128.png)
 
 #### Capturas de tela
 
-![Menu de Contexto ](./doc/print.png)
+![Menu de Contexto ](./doc/print1.png)
 ![Menu de PopUp ](./doc/print2.png)
 
 
@@ -83,6 +83,25 @@ Required to add an item to the browser’s right-click menu. The extension only 
 
 Required to inject a small script into the current page, but only after the user triggers the action. The script is used to read the current URL or execute simple logic requested by the user. No data is collected or transmitted.
 
-#### host
 
-Required so the extension can inject a script into the page where the user initiated the action. The extension does not monito
+# Mozilla
+
+``` bash
+npm install --global web-ext
+cd /caminho/para/sua/extensao
+web-ext lint
+```
+
+``` bash
+web-ext build
+```
+
+Isso gera a pasta web-ext-artifacts e dentro dela o arquivo <extensão>-<versão>.zip
+
+Crie sua chave de API:
+https://addons.mozilla.org/pt-BR/developers/addon/api/key/
+
+```
+web-ext sign --api-key= --api-secret= --channel
+```
+obs: Não consegui colocar a licensa preciso de mais informações então subi manualmente.
