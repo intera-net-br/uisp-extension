@@ -1,5 +1,5 @@
-async function postRequest(url, data, tokenApi, unmsBase) {
-  return fetch(unmsBase + url, {
+async function postRequest(url, data, tokenApi, uispBase) {
+  return fetch(uispBase + url, {
     credentials: "same-origin",
     method: "POST",
     body: JSON.stringify(data),
@@ -11,8 +11,8 @@ async function postRequest(url, data, tokenApi, unmsBase) {
   }).then((response) => response.json());
 }
 
-async function getRequest(url, tokenApi, unmsBase) {
-  return fetch(unmsBase + url, {
+async function getRequest(url, tokenApi, uispBase) {
+  return fetch(uispBase + url, {
     credentials: "same-origin",
     method: "GET",
     headers: new Headers({
@@ -24,13 +24,13 @@ async function getRequest(url, tokenApi, unmsBase) {
 
 (async function () {
   // Obter configurações armazenadas
-  chrome.storage.local.get(["unmsBase", "tokenApi"], async (config) => {
-    if (!config.unmsBase || !config.tokenApi) {
-      console.error("UNMS configuration is missing!");
+  chrome.storage.local.get(["uispBase", "tokenApi"], async (config) => {
+    if (!config.uispBase || !config.tokenApi) {
+      console.error("UISP configuration is missing!");
       return;
     }
 
-    const unmsBase = config.unmsBase;
+    const uispBase = config.uispBase;
     const tokenApi = config.tokenApi;
 
     // Substituir com sua lógica
@@ -38,7 +38,7 @@ async function getRequest(url, tokenApi, unmsBase) {
       await getRequest(
         "/nms/search?query=" + window.location.hostname + "&page=1&count=10",
         tokenApi,
-        unmsBase
+        uispBase
       )
     )[0].data.identification.id;
 
@@ -47,7 +47,7 @@ async function getRequest(url, tokenApi, unmsBase) {
         "/devices/" + id + "/iplink/redirect",
         "",
         tokenApi,
-        unmsBase
+        uispBase
       )
     ).token;
 

@@ -2,44 +2,44 @@
 
 FONTE: https://github.com/intera-net-br/uisp-extension
 
-Essa extensão é bem simples não faz nem tratamento de erros.
+Essa extensão é bem simples, não faz sequer tratamento de erros.
 
-Se o IP estiver cadastrado no UISP ele tenta gerar um ticket para logar.
+Se o IP estiver cadastrado no UISP, ele tenta gerar um ticket para fazer login.
 
 Configure a URL e um token de acesso.
 
-![Janela POPUP](./doc/image.png)
+![Janela Pop-Up](./doc/image.png)
 
-Na URL termine com /nms/api/v2.1
+Na URL, finalize com /nms/api/v2.1
 
 # TODO
-- Exibir reação ao salvar
+- Exibir feedback ao salvar
 - Tratar erros
 - Pensar em pedir para abrir o cofre
 - Dar opção de salvar senha do Device
-- Configutar o UISP se estiver desconfigurado.
+- Configurar o UISP se estiver desconfigurado.
 - Trabalhar com a senha e não com token
 
 # Chorme Web Store
 
-## Pagina
+## Página
 
 ### Detalhes do Produto
 
 #### Titulo
 
-UNMS Extension
+UISP Extension
 
 #### Resumo
 
-Extension to interact with UNMS API.
+Extension to interact with UISP API.
 
 #### Descrição
 
-This extension is intended to facilitate passwordless login, requiring only a right-click and a click in the context menu to open all devices connected to the UISP.
+This extension is intended to facilitate passwordless login, requiring only a right-click and a click on the context menu to open all devices connected to the UISP.
 
 Legal Notice:
-This extension is an independent, user-developed tool created solely to simplify access to device redirect tickets. It is not affiliated with, endorsed by, or associated with Ubiquiti Inc. or any of its products or services. All trademarks and product names mentioned are the property of their respective owners.
+This extension is an independent, user-developed tool created solely to simplify access to device redirect tickets. It is not affiliated with, endorsed by, or associated with Ubiquiti Inc. or any of its products or services. All trademarks and product names mentioned herein are the property of their respective owners.
 
 #### Categoria
 
@@ -57,25 +57,25 @@ Português (Brasil)
 #### Capturas de tela
 
 ![Menu de Contexto ](./doc/print1.png)
-![Menu de PopUp ](./doc/print2.png)
+![Menu de Pop-Up ](./doc/print2.png)
 
 
 ## Privacidade
 
-### Unico proposito
+### Único proposito
 
-It allows you to log in without a password, simply by clicking on the context menu. A UISP ticket will be used.
-Allow the user to generate a UNMS redirect ticket for the currently opened device page. It performs this action only when the user explicitly selects the extension’s context-menu option. The extension does not provide any additional features beyond generating the ticket and redirecting the user to the device’s ticket URL.
+Allows you to log in without a password, simply by clicking on the context menu. A UISP ticket will be used.
+Allow the user to generate a UISP redirect ticket for the currently opened device page. It performs this action only when the user explicitly selects the extension’s context-menu option. The extension does not provide any additional features beyond generating the ticket and redirecting the user to the device’s ticket URL.
 
 ### Justificativa da permissão
 
 #### Storage
 
-Used to locally save two configuration values (BASE URL, TOKEN) provided by the user. These values are stored only on the user’s device and are not sent anywhere.
+Used to locally save two configuration values (Base URL, Token) provided by the user. These values are stored only on the user’s device and are not sent anywhere.
 
 #### ActiveTab
 
-Required to allow the extension to access the content of the currently active tab, and only after the user interacts with the extension.
+Required to allow the extension to access the content of the currently active tab and only after the user interacts with the extension.
 
 #### contextMenu
 
@@ -106,4 +106,4 @@ https://addons.mozilla.org/pt-BR/developers/addon/api/key/
 ```
 web-ext sign --api-key= --api-secret= --channel
 ```
-obs: Não consegui colocar a licensa preciso de mais informações então subi manualmente.
+obs: Não consegui colocar a licença, preciso de mais informações, então subi manualmente.

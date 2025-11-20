@@ -10,7 +10,7 @@
   },
   "name": "UISP Extension",
   "version": "1.0",
-  "description": "Extension to interact with UNMS API.",
+  "description": "Extensão permite login usando Ticket do UISP.",
   "permissions": ["storage", "activeTab", "contextMenus", "scripting"],
   "background": {
     "scripts": ["background.js"]
