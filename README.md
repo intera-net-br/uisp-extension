@@ -1,3 +1,8 @@
+# Link
+
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/lkhlfljkbndcamfhokelojicpadgdfig?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/uisp-extension/lkhlfljkbndcamfhokelojicpadgdfig)
+[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/lkhlfljkbndcamfhokelojicpadgdfig?style=for-the-badge&color=blue)](https://chromewebstore.google.com/detail/uisp-extension/lkhlfljkbndcamfhokelojicpadgdfig)
+
 # UISP Extension
 
 FONTE: https://github.com/intera-net-br/uisp-extension
