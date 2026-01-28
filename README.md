@@ -1,11 +1,10 @@
-# Link
+### 📥 Instalação
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/lkhlfljkbndcamfhokelojicpadgdfig?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/uisp-extension/lkhlfljkbndcamfhokelojicpadgdfig)
-[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/lkhlfljkbndcamfhokelojicpadgdfig?style=for-the-badge&color=blue)](https://chromewebstore.google.com/detail/uisp-extension/lkhlfljkbndcamfhokelojicpadgdfig)
-
+[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/lkhlfljkbndcamfhokelojicpadgdfig?style=for-the-badge&color=blue&label=%20)](https://chromewebstore.google.com/detail/uisp-extension/lkhlfljkbndcamfhokelojicpadgdfig)
 
 [![Firefox Add-on](https://img.shields.io/amo/v/uisp-extension?style=for-the-badge&logo=firefox-browser&logoColor=white&color=orange)](https://addons.mozilla.org/pt-BR/firefox/addon/uisp-extension/)
-[![Firefox Users](https://img.shields.io/amo/users/uisp-extension?style=for-the-badge&color=df261a)](https://addons.mozilla.org/pt-BR/firefox/addon/uisp-extension/)
+[![Firefox Users](https://img.shields.io/amo/users/uisp-extension?style=for-the-badge&&color=orange&label=%20)](https://addons.mozilla.org/pt-BR/firefox/addon/uisp-extension/)
 
 # UISP Extension
 
