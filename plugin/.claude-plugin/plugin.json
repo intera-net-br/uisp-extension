@@ -1,0 +1,9 @@
+{
+  "name": "uisp-login",
+  "version": "1.2.0",
+  "description": "Login sem senha em equipamentos do UISP pelo IP, usando a UISP Extension no Chrome.",
+  "author": { "name": "Eduardo Mazolini" },
+  "homepage": "https://intera-net-br.github.io/uisp-extension/",
+  "repository": "https://github.com/intera-net-br/uisp-extension",
+  "license": "GPL-3.0-or-later"
+}

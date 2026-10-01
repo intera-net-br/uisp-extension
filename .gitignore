@@ -3,3 +3,6 @@
 *.pem
 .amo-upload-uuid
 mozilla.txt
+mozilla-jwt.txt
+*-jwt.txt
+dist/

@@ -1,0 +1,18 @@
+{
+  "name": "uisp-extension",
+  "description": "Skill para assistentes de IA usarem a UISP Extension (login sem senha em equipamentos do UISP).",
+  "owner": {
+    "name": "Eduardo Mazolini"
+  },
+  "plugins": [
+    {
+      "name": "uisp-login",
+      "source": "./plugin",
+      "description": "Login sem senha em equipamentos do UISP pelo IP, usando a UISP Extension no Chrome.",
+      "version": "1.2.0",
+      "homepage": "https://intera-net-br.github.io/uisp-extension/",
+      "repository": "https://github.com/intera-net-br/uisp-extension",
+      "license": "GPL-3.0-or-later"
+    }
+  ]
+}

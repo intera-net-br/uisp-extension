@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UISP Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>UISP Login</h1>
+  <p class="muted">Página de passagem da UISP Extension: gera um ticket no seu UISP e abre o equipamento já logado.</p>
+
+  <div id="uisp-login" class="card">
+    <p>Aguardando a UISP Extension...</p>
+  </div>
+
+  <p><a href="./">O que é isto e como configurar</a></p>
+  <footer>Código livre (GPL-3.0): <a href="https://github.com/intera-net-br/uisp-extension">github.com/intera-net-br/uisp-extension</a>.
+  Projeto independente, sem relação com a Ubiquiti Inc.</footer>
+</main>
+<script>
+  // A extensão (content.js) troca o conteúdo de #uisp-login pelo botão de entrar.
+  // Esta página nunca recebe o token nem fala com o UISP.
+  // O IP vem depois do "#" (login.html#10.0.0.5) e não é enviado ao servidor.
+  (function () {
+    var area = document.getElementById("uisp-login");
+
+    // Cópia local da página (sw.js): funciona com o GitHub fora e não manda o referrer à rede
+    var ready = "serviceWorker" in navigator
+      ? navigator.serviceWorker.register("sw.js", { updateViaCache: "all" }).then(function () { return navigator.serviceWorker.ready; })
+      : Promise.reject(new Error("sem service worker"));
+
+    if (!location.hash.slice(1)) {
+      area.innerHTML = "<p>Preparando a cópia local desta página...</p>";
+      ready
+        .then(function () { return caches.match("login.html"); })
+        .then(function (cached) {
+          area.innerHTML = cached
+            ? "<p><strong>Pronto.</strong> A cópia local está salva: esta página funciona mesmo com o GitHub fora. Pode fechar esta aba.</p>"
+            : "<p>Não foi possível salvar a cópia local. Recarregue a página.</p>";
+        })
+        .catch(function () {
+          area.innerHTML = "<p>Este navegador não permite cópia local (ex.: janela anônima). O login funciona, mas depende do GitHub no ar.</p>";
+        });
+      return;
+    }
+
+    setTimeout(function () {
+      if (document.documentElement.dataset.uispExtension) return;
+      area.innerHTML =
+        "<p><strong>UISP Extension não detectada.</strong></p>" +
+        "<p>Instale a extensão (<a href='https://chromewebstore.google.com/detail/uisp-extension/lkhlfljkbndcamfhokelojicpadgdfig'>Chrome</a> ou " +
+        "<a href='https://addons.mozilla.org/pt-BR/firefox/addon/uisp-extension/'>Firefox</a>, versão 1.2 ou superior), " +
+        "configure a URL e o token do UISP no popup dela e recarregue esta página.</p>";
+    }, 2000);
+  })();
+</script>
+</body>
+</html>

@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>UISP Config</title>
     </head>
     <body>
         <h1>Configure o UISP</h1>
         <form id="config-form">
             <label for="uisp-base">UISP Base URL:</label><br>
-            <input type="text" id="uisp-base" name="uisp-base"><br>
+            <input type="text" id="uisp-base" name="uisp-base" placeholder="https://uisp.exemplo.com/nms/api/v2.1"><br>
             <span id="uisp-base-label"></span><br><br>
             <label for="token-api">Token API:</label><br>
             <input type="password" id="token-api" name="token-api" placeholder="********"><br>
             <span id="token-api-label"></span><br><br>
             <button type="button" id="save-button">Save</button>
+            <p id="save-status"></p>
+            <hr>
+            <button type="button" id="ai-button">Habilitar uso por assistente de IA</button>
+            <p id="ai-status"></p>
         </form>
         <script src="popup.js"></script>
     </body>

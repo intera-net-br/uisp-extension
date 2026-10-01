@@ -1,12 +1,33 @@
 {
   "manifest_version": 3,
   "name": "UISP Extension",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Extensão permite login usando Ticket do UISP.",
-  "permissions": ["storage", "activeTab", "contextMenus", "scripting"],
+  "homepage_url": "https://github.com/intera-net-br/uisp-extension",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "scripting"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://intera-net-br.github.io/uisp-extension/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

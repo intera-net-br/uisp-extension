@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UISP Extension</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>UISP Extension</h1>
+  <p class="muted">Login sem senha em equipamentos cadastrados no UISP, pelo navegador ou pedindo a um assistente de IA.</p>
+
+  <h2>1. Instale e configure a extensão</h2>
+  <ol>
+    <li>Instale pela <a href="https://chromewebstore.google.com/detail/uisp-extension/lkhlfljkbndcamfhokelojicpadgdfig">Chrome Web Store</a>
+      ou pelo <a href="https://addons.mozilla.org/pt-BR/firefox/addon/uisp-extension/">Firefox Add-ons</a>.</li>
+    <li>Sem as lojas: baixe o pacote da última release
+      (<a href="https://github.com/intera-net-br/uisp-extension/releases/latest/download/uisp-extension-chrome.zip">Chrome</a> ou
+      <a href="https://github.com/intera-net-br/uisp-extension/releases/latest/download/uisp-extension-firefox.zip">Firefox</a>).
+      No Chrome, descompacte e use <em>chrome://extensions › Modo do desenvolvedor › Carregar sem compactação</em>.
+      No Firefox o pacote não é assinado e só carrega temporariamente em <em>about:debugging</em>.</li>
+    <li>Abra o popup da extensão, informe a URL do UISP terminando em <code>/nms/api/v2.1</code> e um token de API.</li>
+    <li>Clique em <strong>Save</strong> e depois em <strong>Habilitar uso por assistente de IA</strong>, permitindo o acesso ao endereço do UISP. Uma aba desta página abre para salvar uma cópia local, que funciona mesmo com o GitHub fora.</li>
+  </ol>
+  <p>O token fica guardado só dentro da extensão. Nem esta página nem o assistente de IA têm acesso a ele.</p>
+
+  <h2>2. Instale a skill no seu assistente de IA</h2>
+  <p>O assistente precisa ter acesso ao navegador. Cole nele:</p>
+  <pre>Instale a skill UISP Login de https://intera-net-br.github.io/uisp-extension/</pre>
+  <p>Ou instale manualmente:</p>
+  <ul>
+    <li>Baixe o <a href="https://github.com/intera-net-br/uisp-extension/releases/latest/download/uisp-login-skill.zip">uisp-login-skill.zip</a> (ou o <a href="SKILL.md">SKILL.md</a>)
+      e envie na área de skills do seu assistente.</li>
+    <li>Em ferramentas com marketplace de plugins:
+      <pre>/plugin marketplace add intera-net-br/uisp-extension
+/plugin install uisp-login@uisp-extension</pre></li>
+  </ul>
+  <p>Depois é só pedir, por exemplo: <em>"entra no rádio 10.0.0.5"</em>.
+    O assistente abre a página do equipamento e, a partir dela, vai para <code>login.html#10.0.0.5</code>;
+    a extensão reconhece que o pedido partiu do próprio equipamento e entra sozinha.</p>
+
+  <h2>Conteúdo da skill</h2>
+  <p class="muted">Leia antes de instalar: uma skill são instruções que o assistente passa a seguir.</p>
+  <pre id="skill">Carregando <a href="SKILL.md">SKILL.md</a>...</pre>
+
+  <footer>Código livre (GPL-3.0): <a href="https://github.com/intera-net-br/uisp-extension">github.com/intera-net-br/uisp-extension</a>.
+  Projeto independente, sem relação com a Ubiquiti Inc.</footer>
+</main>
+<script>
+  fetch("SKILL.md").then(function (r) { return r.text(); })
+    .then(function (text) { document.getElementById("skill").textContent = text; })
+    .catch(function () {});
+</script>
+</body>
+</html>

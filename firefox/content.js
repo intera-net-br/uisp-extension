@@ -1,61 +1,74 @@
-async function postRequest(url, data, tokenApi, uispBase) {
-  return fetch(uispBase + url, {
-    credentials: "same-origin",
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: new Headers({
-      "Accept": "application/json",
-      "Content-Type": "application/json",
-      "x-auth-token": tokenApi,
-    }),
-  }).then((response) => response.json());
+if (typeof browser === "undefined") {
+  var browser = chrome;
 }
 
-async function getRequest(url, tokenApi, uispBase) {
-  return fetch(uispBase + url, {
-    credentials: "same-origin",
-    method: "GET",
-    headers: new Headers({
-      "Accept": "application/json",
-      "x-auth-token": tokenApi,
-    }),
-  }).then((response) => response.json());
-}
+// Roda só no trampolim (login.html#IP); o token nunca chega à página, só o background o usa.
+// O IP vem depois do "#", que o navegador não envia ao servidor da página.
+//  - Automático: quando a navegação partiu da própria página do equipamento
+//    (referrer com host igual ao IP). Nenhum outro site consegue produzir esse referrer.
+//  - Nos demais casos: botão que exige clique real.
+(function () {
+  if (window.top !== window) return; // nunca dentro de iframe (clickjacking)
+  if (!location.pathname.endsWith("/login.html")) return;
 
-(async function () {
-  // Obter configurações armazenadas
-  chrome.storage.local.get(["uispBase", "tokenApi"], async (config) => {
-    if (!config.uispBase || !config.tokenApi) {
-      console.error("UISP configuration is missing!");
-      return;
+  document.documentElement.dataset.uispExtension = browser.runtime.getManifest().version;
+
+  function referrerHost() {
+    try {
+      return new URL(document.referrer).hostname;
+    } catch (error) {
+      return "";
+    }
+  }
+
+  let autoTried = "";
+
+  function render() {
+    let ip;
+    try {
+      ip = decodeURIComponent(location.hash.slice(1));
+    } catch (error) {
+      ip = location.hash.slice(1);
+    }
+    const area = document.getElementById("uisp-login");
+    if (!ip || !area) return;
+
+    const status = document.createElement("p");
+    status.id = "uisp-login-status";
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.id = "uisp-login-button";
+    button.textContent = "Entrar em " + ip + " (UISP Extension)";
+
+    async function login() {
+      button.disabled = true;
+      status.textContent = "Gerando ticket no UISP...";
+      try {
+        const response = await browser.runtime.sendMessage({ type: "uisp-login", ip: ip });
+        if (!response || !response.ok) throw new Error((response && response.error) || "Falha desconhecida.");
+        status.textContent = "Redirecionando para " + ip + "...";
+      } catch (error) {
+        status.textContent = "Erro: " + error.message;
+        button.disabled = false;
+      }
     }
 
-    const uispBase = config.uispBase;
-    const tokenApi = config.tokenApi;
+    button.addEventListener("click", (event) => {
+      if (!event.isTrusted) return; // ignora cliques simulados por script
+      login();
+    });
 
-    // Substituir com sua lógica
-    let id = (
-      await getRequest(
-        "/nms/search?query=" + window.location.hostname + "&page=1&count=10",
-        tokenApi,
-        uispBase
-      )
-    )[0].data.identification.id;
+    area.replaceChildren(button, status);
 
-    let ticket = (
-      await postRequest(
-        "/devices/" + id + "/iplink/redirect",
-        "",
-        tokenApi,
-        uispBase
-      )
-    ).token;
+    // Uma tentativa automática por IP, só com referrer do próprio equipamento
+    if (referrerHost() === ip && autoTried !== ip) {
+      autoTried = ip;
+      login();
+    }
+  }
 
-    window.location.href =
-      window.location.protocol +
-      "//" +
-      window.location.hostname +
-      "/ticket.cgi?ticketid=" +
-      ticket;
-  });
+  render();
+  // Trocar só o "#IP" não recarrega a página (o referrer continua o do carregamento)
+  window.addEventListener("hashchange", render);
 })();
