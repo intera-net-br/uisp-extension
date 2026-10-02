@@ -69,6 +69,7 @@ Para publicar a página: *Settings › Pages › Deploy from branch › main /do
 # TODO
 - Validar a URL do UISP no popup ao salvar: exigir `https://` (ou `http://`) e o final `/nms/api/v2.1`, mostrando erro em vez de salvar (ex.: `ttps://` salvo por engano causou "Failed to fetch")
 - Tratar erros
+- Trampolim mais rápido (~0,4 s): o `content.js` iniciar o login assim que a página abre (`run_at: document_start`), sem esperar o carregamento completo
 - Verificar o certificado do equipamento pelo MAC: o certificado de fábrica da Ubiquiti tem `CN=UBNT-<MAC>`, e o UISP conhece o MAC de cada equipamento; comparar os dois confirma que o certificado é daquele rádio
 - Pensar em pedir para abrir o cofre
 - Dar opção de salvar senha do Device
