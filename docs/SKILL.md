@@ -17,28 +17,35 @@ Faça tudo numa **única chamada em lote**, na mesma aba, sem capturas de tela:
    location.href = "https://intera-net-br.github.io/uisp-extension/login.html#" + location.hostname;
    ```
 3. Aguarde 4 segundos.
-4. Execute (espera sozinho até o painel abrir; o equipamento pode levar 10 s):
-   ```js
-   await new Promise((done) => {
-     const t0 = Date.now();
-     const tick = () => {
-       const erro = document.getElementById("uisp-login-status")?.textContent || "";
-       const logado = location.hostname !== "intera-net-br.github.io"
-         && document.readyState === "complete"
-         && !/(login|ticket)\.cgi/.test(location.pathname)
-         && !/ticketid/.test(location.hash)
-         && document.title !== "Ubiquiti"
-         && !document.querySelector("input[type=password]");
-       if (logado || erro.startsWith("Erro:") || Date.now() - t0 > 25000)
-         return done({ logado, erro, url: location.origin + location.pathname, titulo: document.title });
-       setTimeout(tick, 250);
-     };
-     tick();
-   });
-   ```
+4. Execute a conferência abaixo (espera sozinha; o equipamento pode levar
+   15 s e às vezes recarrega a página no meio, o que ela detecta).
+5. Aguarde 2 segundos.
+6. Execute a mesma conferência de novo.
 
-`logado: true`: avise em uma frase e encerre, o resultado é definitivo.
-Se o passo 4 falhar porque a página navegou, repita só o passo 4.
-Qualquer outro caso (erro, aviso de certificado, página que não carrega):
-leia `erros.md` (nesta skill ou em
+```js
+await new Promise((done) => {
+  const t0 = Date.now();
+  navigation.addEventListener("navigate", (e) => {
+    if (!e.destination.sameDocument) done({ recarregando: true });
+  });
+  const tick = () => {
+    const erro = document.getElementById("uisp-login-status")?.textContent || "";
+    const logado = location.hostname !== "intera-net-br.github.io"
+      && document.readyState === "complete"
+      && !/(login|ticket)\.cgi/.test(location.pathname)
+      && !/ticketid/.test(location.hash)
+      && document.title !== "Ubiquiti"
+      && !document.querySelector("input[type=password]");
+    if (logado || erro.startsWith("Erro:") || Date.now() - t0 > 25000)
+      return done({ logado, erro, url: location.origin + location.pathname, titulo: document.title });
+    setTimeout(tick, 250);
+  };
+  tick();
+});
+```
+
+Vale o resultado do passo 6. `logado: true`: avise em uma frase e encerre.
+Se ainda vier `recarregando: true`, ou o passo falhar porque a página
+navegou, repita os passos 5 e 6. Qualquer outro caso (erro, aviso de
+certificado, página que não carrega): leia `erros.md` (nesta skill ou em
 https://intera-net-br.github.io/uisp-extension/erros.md).

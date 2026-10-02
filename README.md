@@ -48,17 +48,27 @@ Gere os arquivos localmente e publique a release pelo `gh` (ou pela página *Rel
 
 ```bash
 scripts/build.sh
-git tag v1.2 && git push origin v1.2
-gh release create v1.2 dist/*.zip --title v1.2 --generate-notes
+git tag v1.2.1 && git push origin v1.2.1
+gh release create v1.2.1 dist/*.zip --title v1.2.1 --generate-notes
 ```
 
-Para trocar os arquivos de uma release existente: `gh release upload v1.2 dist/*.zip --clobber`.
+Para trocar os arquivos de uma release existente: `gh release upload v1.2.1 dist/*.zip --clobber`.
 
 Arquivos gerados em `dist/`:
 
 - `uisp-login-skill.zip`: a skill para assistentes de IA;
-- `uisp-extension-chrome.zip`: a extensão para Chrome. Para instalar sem a loja, descompacte e use *chrome://extensions › Modo do desenvolvedor › Carregar sem compactação*. É também o pacote enviado à Chrome Web Store;
+- `uisp-extension-chrome.zip`: a extensão para Chrome. Para instalar sem a loja, descompacte e use *chrome://extensions › Modo do desenvolvedor › Carregar sem compactação*;
 - `uisp-extension-firefox.zip`: a extensão para Firefox, sem assinatura. Sem a loja, só carrega temporariamente em *about:debugging › Este Firefox › Carregar extensão temporária*. É também o pacote enviado à AMO.
+
+Só localmente (não vai para a release):
+
+- `uisp-extension-chrome.crx`: o pacote enviado à **Chrome Web Store**. A loja usa *uploads verificados*: só aceita `.crx` assinado com a chave `uisp_extension.pem` (cadastrada no painel). O `scripts/build.sh` gera esse arquivo quando encontra a chave na raiz do projeto, ou no caminho da variável `UISP_PEM`, e o Chrome instalado. O comando usado é equivalente a:
+
+  ```bash
+  google-chrome --pack-extension=chrome --pack-extension-key=uisp_extension.pem
+  ```
+
+  A chave nunca vai para o Git (`*.pem` está no `.gitignore`). Guarde uma cópia em lugar seguro: sem ela não é possível publicar no Chrome até o suporte do Google redefinir a chave.
 
 Mantenha esses nomes: os links da página usam `releases/latest/download/<nome>`, que sempre aponta para a release mais recente.
 
