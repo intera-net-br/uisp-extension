@@ -12,6 +12,10 @@ extensão: nunca peça o token ao usuário nem tente lê-lo.
 
 ## Passos
 
+Seja econômico: **não tire capturas de tela** nem faça esperas longas. A URL
+da aba e um texto curto bastam para saber o resultado. Se a ferramenta permitir
+ações em lote, faça os passos 1 e 2 numa única chamada.
+
 1. Abra a página do equipamento: `https://<IP>/` (um IP por vez, só IPv4).
 2. Nessa mesma aba, execute este JavaScript na página do equipamento:
    ```js
@@ -19,8 +23,20 @@ extensão: nunca peça o token ao usuário nem tente lê-lo.
    ```
    Como a navegação parte da página do próprio equipamento, a extensão
    reconhece o pedido e segue sozinha, sem clique.
-3. A aba é redirecionada para `https://<IP>/ticket.cgi?ticketid=...` e o
-   equipamento abre já logado.
+3. Após cerca de 2 segundos, confira o resultado executando na aba:
+   ```js
+   ({ url: location.href, status: document.getElementById("uisp-login-status")?.textContent || "" })
+   ```
+   - `url` em `https://<IP>/` e sem `login.cgi` nem `ticket.cgi`: **logado**.
+     Avise o usuário em uma frase e encerre.
+   - `url` ainda em `login.html` com `status` "Gerando ticket..." ou
+     "Redirecionando...": ainda em andamento. Confira de novo após 2 segundos
+     (no máximo 3 vezes).
+   - `status` começando com "Erro:": repasse a mensagem (veja abaixo).
+   - `url` em `login.cgi` no equipamento: o ticket não foi aceito; avise o
+     usuário.
+
+Só tire captura de tela se o usuário pedir para ver o equipamento.
 
 Se não for possível executar JavaScript na página (ou se a página do
 equipamento não carregar), abra direto
