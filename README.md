@@ -77,14 +77,25 @@ Para uso normal, prefira instalar pelas lojas (links no topo).
 Para publicar a página: *Settings › Pages › Deploy from branch › main /docs*.
 
 # TODO
-- Validar a URL do UISP no popup ao salvar: exigir `https://` (ou `http://`) e o final `/nms/api/v2.1`, mostrando erro em vez de salvar (ex.: `ttps://` salvo por engano causou "Failed to fetch")
-- Tratar erros
-- Trampolim mais rápido (~0,4 s): o `content.js` iniciar o login assim que a página abre (`run_at: document_start`), sem esperar o carregamento completo
-- Verificar o certificado do equipamento pelo MAC: o certificado de fábrica da Ubiquiti tem `CN=UBNT-<MAC>`, e o UISP conhece o MAC de cada equipamento; comparar os dois confirma que o certificado é daquele rádio
-- Pensar em pedir para abrir o cofre
-- Dar opção de salvar senha do Device
-- Configurar o UISP se estiver desconfigurado.
-- Trabalhar com a senha e não com token
+
+1. **Validar a configuração no popup e mostrar erros**
+   - Ao salvar, exigir `https://` (ou `http://`) e o final `/nms/api/v2.1`, mostrando erro em vez de salvar (ex.: `ttps://` salvo por engano causou "Failed to fetch").
+   - Botão "Testar conexão": chama o UISP com o token e mostra OK ou o erro exato (URL errada, token inválido, UISP fora).
+   - Mostrar no clique direito os erros que hoje só aparecem no console (aviso no ícone da extensão ou faixa na página).
+2. **Trampolim mais rápido (~0,4 s):** o `content.js` iniciar o login assim que a página abre (`run_at: document_start`), sem esperar o carregamento completo.
+3. **Verificar o certificado do equipamento pelo MAC:** o certificado de fábrica da Ubiquiti tem `CN=UBNT-<MAC>`, e o UISP conhece o MAC de cada equipamento; comparar os dois confirma que o certificado é daquele rádio.
+4. **Salvar a senha do rádio no vault do UISP** (substitui "abrir o cofre" e "salvar senha do Device")
+   - Fluxo pelo clique direito: o técnico digita usuário e senha no login do airOS, escolhe "Entrar e salvar senha no UISP", confirma, e a extensão só envia ao vault depois que o login deu certo. A senha nunca é guardada na extensão e a função fica fora da skill dos assistentes.
+   - Rotas encontradas na API do UISP: `POST /vault/credentials/unlock` (abrir o cofre), `POST /vault/credentials`, `GET /vault/{deviceId}/credentials`, `POST /vault/{deviceId}/credentials/change` e `/regenerate`. Confirmar os campos de cada uma antes de implementar.
+   - Atenção: um token com acesso ao vault consegue **ler** a senha de todos os rádios (`GET /vault/{deviceId}/credentials`). Usar um usuário do UISP só com permissão de gravação, se o UISP permitir separar.
+5. **Login no UISP por sessão (opcional)** (substitui "trabalhar com a senha e não com token"): o usuário entra com usuário e senha do UISP uma vez por sessão do navegador; a senha não é salva e o token temporário fica só na memória (`storage.session`). O token fixo continua disponível para quem preferir.
+6. **Equipamento não encontrado no UISP** (substitui "configurar o UISP se estiver desconfigurado"): incluir no erro um link para a tela do UISP onde se adiciona o equipamento.
+
+Descartado (2026-10):
+
+- Eliminar o aviso de certificado dos rádios: o proxy do UISP (`/devices/{id}/remoteuiproxy`) não funciona com airMax, e o airOS 8.7.25 não aceita certificado próprio pela interface. O aviso é aceito uma vez por rádio.
+- Levar o clique direito para o background para remover `activeTab` e `scripting`: ganho pequeno, e o fluxo do vault (item 4) vai precisar dessas permissões.
+- Guardar no cache da extensão o IP→equipamento: ganharia ~1,3 s, mas arrisca mandar o ticket para um IP desatualizado.
 
 # Chorme Web Store
 
