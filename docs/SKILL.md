@@ -1,7 +1,7 @@
 ---
 name: uisp-login
 description: Entrar (login sem senha, via ticket do UISP) em rádios e equipamentos Ubiquiti/airOS cadastrados no UISP a partir do IP, usando a UISP Extension no Chrome. Use quando o usuário pedir para acessar, abrir ou entrar num equipamento UISP pelo IP.
-license: GPL-3.0-or-later
+license: GPL-3.0-only
 ---
 
 # Login em equipamento UISP pelo IP

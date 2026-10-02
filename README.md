@@ -165,9 +165,21 @@ Crie sua chave de API:
 https://addons.mozilla.org/pt-BR/developers/addon/api/key/
 
 ```
-web-ext sign --api-key= --api-secret= --channel
+web-ext sign --channel listed --amo-metadata amo-metadata.json --approval-timeout 0
 ```
-obs: Não consegui colocar a licença, preciso de mais informações, então subi manualmente. Na página do add-on, escolha a licença GPL-3.0.
+
+As chaves vão nas variáveis `WEB_EXT_API_KEY` e `WEB_EXT_API_SECRET` (nunca no repositório). O `amo-metadata.json` define a licença e a nota para o revisor:
+
+```json
+{
+  "version": {
+    "license": "GPL-3.0-only",
+    "approval_notes": "Source code: https://github.com/intera-net-br/uisp-extension (GPL-3.0). No build step, files are not minified."
+  }
+}
+```
+
+A AMO não aceita `GPL-3.0-or-later`; o identificador é `GPL-3.0-only`.
 
 # Licença
 
