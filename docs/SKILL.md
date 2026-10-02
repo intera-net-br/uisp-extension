@@ -36,9 +36,8 @@ mostrar o botão em vez de seguir sozinha.
   Peça ao usuário para instalar a UISP Extension (link na página) e configurar
   URL e token no popup.
 - **"Erro: ..." abaixo do botão**: repasse a mensagem ao usuário. Os casos
-  comuns são extensão não configurada, IP não cadastrado no UISP ou falta de
-  permissão de acesso ao UISP (resolve abrindo o popup da extensão e
-  clicando em "Habilitar uso por assistente de IA").
+  comuns são extensão não configurada, IP não cadastrado no UISP ou UISP
+  inacessível a partir deste navegador.
 - **Aviso de certificado inválido** no equipamento (no passo 1 ou no final):
   é esperado, os equipamentos Ubiquiti usam certificado autoassinado.
   - Se você conseguir ler e interagir com a tela de aviso, confira que o

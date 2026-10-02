@@ -25,15 +25,12 @@ async function uispRequest(method, url, config) {
     options.headers["Content-Type"] = "application/json";
     options.body = JSON.stringify("");
   }
+  // Sem permissão de host: depende do CORS do UISP, o mesmo que a versão 1.1 já usava
   let response;
   try {
     response = await fetch(config.uispBase + url, options);
   } catch (error) {
-    const granted = await browser.permissions.contains({ origins: [new URL(config.uispBase).origin + "/*"] });
-    if (!granted) {
-      throw new Error("Abra o popup da UISP Extension e clique em \"Habilitar uso por assistente de IA\".");
-    }
-    throw error;
+    throw new Error("Não foi possível acessar o UISP em " + config.uispBase + " (rede ou CORS).");
   }
   if (!response.ok) {
     throw new Error("UISP respondeu HTTP " + response.status);

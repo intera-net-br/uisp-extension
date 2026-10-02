@@ -32,11 +32,11 @@ Como funciona:
 2. A extensão (`content.js`, que só roda nessa página) confere o referrer: se a navegação partiu do próprio equipamento (host do referrer igual ao IP), segue sozinha. Nenhum outro site consegue produzir esse referrer. Nos demais casos, mostra o botão "Entrar em IP", que só aceita clique real (`event.isTrusted`). Nada funciona dentro de iframe.
 3. O `background.js` busca o IP no UISP, exige correspondência exata, gera o ticket e redireciona a aba para o IP **devolvido pelo UISP**.
 
-O `login.html` registra um service worker ([`docs/sw.js`](./docs/sw.js)) que guarda uma cópia local da página. Depois da primeira visita (feita ao clicar em "Habilitar uso por assistente de IA"), a página abre mesmo com o GitHub fora e a navegação, que leva o referrer do equipamento, não sai do navegador. A cópia é atualizada no máximo uma vez por dia, sem referrer. Além disso, ao abrir a página o próprio navegador confere se o `sw.js` mudou; com `updateViaCache: "all"` essa checagem respeita o cache HTTP do GitHub Pages (10 minutos) e não leva o IP do equipamento (testado: o `Referer` é o próprio `sw.js`). Assim o GitHub pode perceber que a página foi aberta e em que horário, mas não em qual equipamento. Sem a cópia local (janela anônima, dados do navegador apagados), a página vem da rede e o GitHub recebe o IP do equipamento no cabeçalho `Referer`.
+O `login.html` registra um service worker ([`docs/sw.js`](./docs/sw.js)) que guarda uma cópia local da página. Depois da primeira visita (feita ao clicar em "Preparar uso por assistente de IA"), a página abre mesmo com o GitHub fora e a navegação, que leva o referrer do equipamento, não sai do navegador. A cópia é atualizada no máximo uma vez por dia, sem referrer. Além disso, ao abrir a página o próprio navegador confere se o `sw.js` mudou; com `updateViaCache: "all"` essa checagem respeita o cache HTTP do GitHub Pages (10 minutos) e não leva o IP do equipamento (testado: o `Referer` é o próprio `sw.js`). Assim o GitHub pode perceber que a página foi aberta e em que horário, mas não em qual equipamento. Sem a cópia local (janela anônima, dados do navegador apagados), a página vem da rede e o GitHub recebe o IP do equipamento no cabeçalho `Referer`.
 
 O token nunca sai da extensão: nem a página nem o assistente têm acesso a ele.
 
-Para habilitar, abra o popup e clique em **Habilitar uso por assistente de IA**: o navegador pede permissão de acesso apenas ao endereço do UISP. Quem não usa assistente de IA não precisa disso; o clique direito funciona igual à versão 1.1.
+Nenhuma permissão nova é necessária: a extensão chama o UISP pelo mesmo CORS que a versão 1.1 já usava. Para já deixar a cópia local pronta, abra o popup e clique em **Preparar uso por assistente de IA**. O clique direito funciona igual à versão 1.1.
 
 Instalação da skill: use o [`uisp-login-skill.zip`](https://github.com/intera-net-br/uisp-extension/releases/latest/download/uisp-login-skill.zip) da última release ou o [`SKILL.md`](./plugin/skills/uisp-login/SKILL.md) conforme o seu assistente. Ferramentas que aceitam marketplace de plugins no formato `.claude-plugin` podem instalar direto deste repositório (ex.: `/plugin marketplace add intera-net-br/uisp-extension` e `/plugin install uisp-login@uisp-extension`).
 
@@ -142,13 +142,9 @@ Required to add an item to the browser’s right-click menu. The extension only 
 
 Required to inject a small script into the current page, but only after the user triggers the action. The script is used to read the current URL or execute simple logic requested by the user. No data is collected or transmitted.
 
-#### Host permission (optional, UISP address only)
+#### Host permission: content script (intera-net-br.github.io/uisp-extension only)
 
-Requested only when the user clicks "Enable use by AI assistant" in the popup, and only for the origin of the UISP URL the user typed. Used to call the UISP API (device search and redirect ticket). No other host is accessed.
-
-#### Content script (intera-net-br.github.io/uisp-extension)
-
-Runs only on the extension's own login page, published from the open source repository. It shows a "Log in" button that requires a real user click and asks the extension to generate the ticket. The token is never exposed to the page.
+The only host access the extension declares. The content script runs only on the extension's own page https://intera-net-br.github.io/uisp-extension/, published from the open source repository. There, the user or an AI assistant with browser access can request a UISP login ticket for a device IP: automatically when the navigation comes from that device's own page, otherwise after a real click on a button. The UISP API token is never exposed to the page. Calls to the UISP API are made by the background script using the CORS headers of the UISP server (same as version 1.1), with no host permission.
 
 
 # Mozilla
