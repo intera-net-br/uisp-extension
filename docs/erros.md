@@ -18,7 +18,9 @@
   é esperado, os equipamentos Ubiquiti usam certificado autoassinado.
   - Se você conseguir ler e interagir com a tela de aviso, confira que o
     endereço é exatamente `https://<IP>/` pedido e, se der para ver o
-    certificado, que emissor/assunto citam Ubiquiti, UBNT ou airOS. Estando
+    certificado, que ele tem o formato de fábrica da Ubiquiti: emissor igual
+    ao assunto, `O=Ubiquiti Networks Inc.` e `CN=UBNT-<MAC do equipamento>`
+    (ex.: `CN=UBNT-04:18:D6:38:83:78`). Estando
     certo, aceite o aviso (Avançado › Continuar para <IP>) e recomece do
     passo 2. Esse certificado é só um indício; a garantia de verdade é a
     extensão, que só gera ticket para IP cadastrado no UISP.
