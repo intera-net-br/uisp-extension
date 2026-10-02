@@ -25,7 +25,8 @@ Faça tudo numa **única chamada em lote**, na mesma aba, sem capturas de tela:
 ```js
 await new Promise((done) => {
   const t0 = Date.now();
-  navigation.addEventListener("navigate", (e) => {
+  // Navigation API: avisa antes de a página recarregar (sem ela, o passo pode falhar e é repetido)
+  globalThis.navigation?.addEventListener("navigate", (e) => {
     if (!e.destination.sameDocument) done({ recarregando: true });
   });
   const tick = () => {
