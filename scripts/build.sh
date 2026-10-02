@@ -5,11 +5,11 @@
 #   uisp-extension-firefox.zip   extensão para Firefox (também serve para a AMO)
 #   uisp-extension-chrome.crx    só se houver a chave .pem: pacote assinado para a
 #                                Chrome Web Store (uploads verificados)
-# e copia o SKILL.md e o erros.md para o GitHub Pages.
+# e copia o SKILL.md para o GitHub Pages.
 # Chave: uisp_extension.pem na raiz do projeto, ou o caminho em UISP_PEM.
 set -e
 cd "$(dirname "$0")/.."
-cp plugin/skills/uisp-login/SKILL.md plugin/skills/uisp-login/erros.md docs/
+cp plugin/skills/uisp-login/SKILL.md docs/
 rm -rf dist
 mkdir -p dist
 (cd plugin/skills && zip -qr ../../dist/uisp-login-skill.zip uisp-login)
