@@ -46,7 +46,15 @@ await new Promise((done) => {
 ```
 
 Vale o resultado do passo 6. `logado: true`: avise em uma frase e encerre.
-Se ainda vier `recarregando: true`, ou o passo falhar porque a página
-navegou, repita os passos 5 e 6. Qualquer outro caso (erro, aviso de
-certificado, página que não carrega): leia `erros.md` (nesta skill ou em
+
+Se vier `recarregando: true`, ou a chamada em lote voltar com **qualquer erro
+da ferramenta** (página navegou, aba fora do grupo da sessão, etc.), o login
+pode ter funcionado mesmo assim: aguarde 10 segundos e rode só a conferência,
+uma vez. Se a ferramenta não aceitar comandos na aba, veja o título da aba na
+listagem de abas: algo como `<nome> - Dashboard - airOS` ou
+`[<nome>] - Principal` (diferente de "Ubiquiti" e de "Iniciar sessão") indica
+logado.
+
+Qualquer outro caso (erro da extensão, aviso de certificado, página que não
+carrega): leia `erros.md` (nesta skill ou em
 https://intera-net-br.github.io/uisp-extension/erros.md).
