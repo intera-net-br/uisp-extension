@@ -67,6 +67,7 @@ Para uso normal, prefira instalar pelas lojas (links no topo).
 Para publicar a página: *Settings › Pages › Deploy from branch › main /docs*.
 
 # TODO
+- Validar a URL do UISP no popup ao salvar: exigir `https://` (ou `http://`) e o final `/nms/api/v2.1`, mostrando erro em vez de salvar (ex.: `ttps://` salvo por engano causou "Failed to fetch")
 - Tratar erros
 - Pensar em pedir para abrir o cofre
 - Dar opção de salvar senha do Device
